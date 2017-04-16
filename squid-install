@@ -1,0 +1,20 @@
+# Updating package database
+apt-get update
+# Installing necessary packages (Squid, apache2-utils for htpassword and dependencies)
+apt-get install apache2-utils squid3 -y
+# Creating user with username chrisp and password superman2
+htpasswd -b -c /etc/squid3/passwd chrisp superman2
+# Backing Up original conf file
+cp /etc/squid3/squid.conf /etc/squid3/squid.conf.bak
+# Downloading Squid configuration
+wget -O /etc/squid3/squid.conf https://raw.githubusercontent.com/hidden-refuge/squid-proxy-installer/master/spi-ubuntu.conf --no-check-certificate
+# Copying squid3.conf from init to init.d for startup script
+cp /etc/init/squid3.conf /etc/init.d/squid3
+# Creating empty blacklist.acl file for further blacklisting entries
+touch /etc/squid3/blacklist.acl
+# Restarting Squid and enabling its service
+service squid3 restart && update-rc.d squid3 defaults
+# Opening default Squid port 3128 for clients to connect
+iptables -I INPUT -p tcp --dport 3128 -j ACCEPT
+# Saving firewall rules
+iptables-save
