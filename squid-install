@@ -2,7 +2,7 @@
 apt-get update
 # Installing necessary packages (Squid, apache2-utils for htpassword and dependencies)
 apt-get install apache2-utils squid3 -y
-# Creating user with username chrisp and password superman2
+# Creating user with username proxy and password superman2
 htpasswd -b -c /etc/squid3/passwd proxy superman2
 # Backing Up original conf file
 cp /etc/squid3/squid.conf /etc/squid3/squid.conf.bak
